@@ -1,57 +1,81 @@
 ﻿using System;
-
-namespace MyApp // Note: actual namespace depends on the project name.
+using System.IO;
+using System.Collections.Generic;
+class Program
 {
-    internal class Program
+
+    class albumy
     {
-        class albumy
+        public string artist { get; set; }
+        public string album { get; set; }
+        public Int32 songsNumber { get; set; }
+        public Int32 year { get; set; }
+        public Int32 downloadNumber { get; set; }
+
+       public override string ToString()
+       {
+           return $"Zespół: {artist}, Album: \"{album}\", Utwory: {songsNumber}, Rok: {year}, Ilosc Pobran: {downloadNumber}";
+       }
+        public void odczyt(string filePath, List<albumy> utwory)
         {
-            string artist { get; set; }
-            string album { get; set; }
-            int songsNumber { get; set; }
-            int year { get; set; }
-            Int32 downloadNumber { get; set; }
-            public void odczytaj()
+            int i = 0;
+
+
+            using (StreamReader sr = new StreamReader(filePath))
             {
-                string plik = "Data.txt";
-                string linia;
-                int ilosc=0;
-
-                StreamReader sr = new StreamReader(plik);
-
-                while (!sr.EndOfStream) { 
-                
-                    ilosc++;
-                    
-
-                }
-
-
-                while (!sr.EndOfStream)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    linia = sr.ReadLine();
-                   ilosc++;
-                    Console.WriteLine(linia);
-                   
+                    albumy u = new albumy();
+
+
+                    u.artist = line;
+                    u.album = sr.ReadLine().Trim('"');
+                    u.songsNumber = int.Parse(sr.ReadLine());
+                    u.year = int.Parse(sr.ReadLine());
+                    u.downloadNumber = int.Parse(sr.ReadLine());
+
+                    sr.ReadLine();
+
+                    utwory.Add(u);
+
                 }
-                Console.WriteLine(ilosc);
 
             }
 
-        };//koniec klasy albumy
+        }//koniec odczyt
 
-        
-    
-
-        static void Main(string[] args)
+        public void wyswietl(List<albumy> utwory)
         {
-            albumy album = new albumy();
+            int liczba = 0;
+            foreach (var u1 in utwory)
+            {
+                liczba++;
+                Console.WriteLine(liczba);
+                Console.WriteLine(u1);
+            }
+        }
 
-            album.odczytaj();
+    };
 
-            Console.WriteLine("Hello World!");
+    static void Main()
+    {
+        string filePath = "Data.txt";
 
+        if (File.Exists(filePath))
+        {
 
+            List<albumy> utwory = new List<albumy>();
+
+            var cc = new albumy();
+
+            cc.odczyt(filePath, utwory);
+            cc.wyswietl(utwory);
+
+        }
+        else
+        {
+            Console.WriteLine("Plik nie istnieje.");
         }
     }
 }
