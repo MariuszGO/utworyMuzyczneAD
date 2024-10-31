@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-class Program
+﻿class Program
 {
 
     class albumy
@@ -12,13 +9,13 @@ class Program
         public Int32 year { get; set; }
         public Int32 downloadNumber { get; set; }
 
-       public override string ToString()
-       {
-           return $"Zespół: {artist}, Album: \"{album}\", Utwory: {songsNumber}, Rok: {year}, Ilosc Pobran: {downloadNumber}";
-       }
+        public override string ToString()
+        {
+            return $"Zespół: {artist}, Album: \"{album}\", Utwory: {songsNumber}, Rok: {year}, Ilosc Pobran: {downloadNumber}";
+        }
         public void odczyt(string filePath, List<albumy> utwory)
         {
-            int i = 0;
+            
 
 
             using (StreamReader sr = new StreamReader(filePath))
